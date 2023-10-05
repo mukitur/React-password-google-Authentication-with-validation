@@ -17,4 +17,5 @@ Live Link:
 - Login.jsx implementationa
 - firebase project create  
    project name: React-password-Google-Auth (email: mukitur.rahman2050@gmail.com)
-- s
+- .env.local file create and hide firebase key
+-
