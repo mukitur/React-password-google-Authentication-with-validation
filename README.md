@@ -7,11 +7,14 @@ Live Link:
 - React router DOM
 - Tailwind
 - Daisy UI
-- Google Font - (poppins) src --> index.css --> at top position paste @import
-  tailwind.config.js -->extend -->
+- Google Font - (poppins) Step-1: src --> index.css --> at top position paste @import
+  Step-2: tailwind.config.js -->extend -->
   fontFamily: {
   poppins: "'Poppins', sans-serif",
   },
-  added
 - ErrorPage Handle
-- Login.jsx implementation
+- Register.jsx implementation
+- Login.jsx implementationa
+- firebase project create  
+   project name: React-password-Google-Auth (email: mukitur.rahman2050@gmail.com)
+- s
