@@ -1,12 +1,34 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
+  const [registerError, setRegisterError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const termsAccepted = e.target.terms.checked;
     console.log(name, email, password);
+
+    // Reset error
+    setRegisterError('');
+    // ccheck password
+    if (password.length < 6) {
+      setRegisterError('Password must be minimum 6 Character Long');
+      return;
+    } else if (!/[A-Z][a-z][0-9]/.test(password)) {
+      setRegisterError(
+        'Your password should one upper case Letter, One Lowercase Letter and a Number'
+      );
+      return;
+    } else if (!termsAccepted) {
+      setRegisterError('Please accept Terms & Conditions');
+      return;
+    }
   };
   return (
     <div>
@@ -45,12 +67,26 @@ const Register = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
                 required
                 className="input input-bordered"
               />
+              <span
+                className="relative -top-8 -right-52 md:-right-72 "
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
+              <div className="flex">
+                <input className="mr-2" type="checkbox" name="terms" />
+                <label className="label">
+                  <a href="#" className="label-text-alt link link-hover">
+                    Accept Terms & Conditions
+                  </a>
+                </label>
+              </div>
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
@@ -67,6 +103,7 @@ const Register = () => {
               <button className="btn btn-link">Login</button>
             </Link>
           </p>
+          {registerError && <p>{registerError}</p>}
         </div>
       </div>
     </div>
