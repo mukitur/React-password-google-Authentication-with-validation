@@ -1,11 +1,26 @@
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Login = () => {
+  const { signInUser } = useContext(AuthContext);
+  const [loginSuccess, setLoginSuccess] = useState('');
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(email, password);
+
+    // sign In user
+    signInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        setLoginSuccess('Logged in Successfully');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div>
@@ -54,6 +69,7 @@ const Login = () => {
               <button className="btn btn-link">Register</button>
             </Link>
           </p>
+          {loginSuccess && <p>{loginSuccess}</p>}
           {/* <p>
             <button onClick={handleGoogleSignIn} className="btn btm-ghost ">
               Google SignIn

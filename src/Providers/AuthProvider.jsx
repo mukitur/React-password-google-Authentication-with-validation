@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -16,17 +16,44 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  //   const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // crrate user for register
   const createUser = (email, password) => {
-    // setLoading(true);
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
+
+  //   Login User
+  const signInUser = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  //   logout user
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
+
+  // set observe auth state change
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+      console.log('Observing current user from useEffect', currentUser);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const authInfo = {
     user,
     createUser,
+    signInUser,
+    logOut,
+    loading,
   };
 
   return (
