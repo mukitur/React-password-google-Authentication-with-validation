@@ -6,6 +6,8 @@ import Career from '../Pages/Career/Career';
 import ErrorPage from '../Pages/ErrorPage/ErrorPage';
 import Login from '../Pages/Login/Login';
 import Register from '../Pages/Register/Register';
+import DashBoard from '../Pages/DashBoard/DashBoard';
+import PrivateRoute from '../PrivateRoutes/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />,
+      },
+      {
+        path: '/dashboard',
+        element: (
+          <PrivateRoute>
+            <DashBoard />
+          </PrivateRoute>
+        ),
       },
     ],
   },
