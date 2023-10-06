@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../../Providers/AuthProvider';
+import { updateProfile } from 'firebase/auth';
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -37,6 +38,13 @@ const Register = () => {
       .then((result) => {
         console.log(result.user);
         setRegisterSuccess('Youe Account Successfully created');
+
+        // update profile
+        updateProfile(result.user, {
+          displayName: name,
+        })
+          .then(() => console.log('profile updated'))
+          .catch();
       })
       .catch((error) => {
         console.log(error);
