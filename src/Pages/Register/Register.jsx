@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Register = () => {
+  const { createUser } = useContext(AuthContext);
+
   const [registerError, setRegisterError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [registerSuccess, setRegisterSuccess] = useState('');
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -16,19 +20,28 @@ const Register = () => {
 
     // Reset error
     setRegisterError('');
+    setRegisterSuccess('');
     // ccheck password
     if (password.length < 6) {
       setRegisterError('Password must be minimum 6 Character Long');
       return;
-    } else if (!/[A-Z][a-z][0-9]/.test(password)) {
-      setRegisterError(
-        'Your password should one upper case Letter, One Lowercase Letter and a Number'
-      );
+    } else if (!/[A-Z]/.test(password)) {
+      setRegisterError('Your password should one upper case Letter');
       return;
     } else if (!termsAccepted) {
       setRegisterError('Please accept Terms & Conditions');
       return;
     }
+
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        setRegisterSuccess('Youe Account Successfully created');
+      })
+      .catch((error) => {
+        console.log(error);
+        setRegisterError(error.message);
+      });
   };
   return (
     <div>
@@ -104,6 +117,7 @@ const Register = () => {
             </Link>
           </p>
           {registerError && <p>{registerError}</p>}
+          {registerSuccess && <p>{registerSuccess}</p>}
         </div>
       </div>
     </div>
