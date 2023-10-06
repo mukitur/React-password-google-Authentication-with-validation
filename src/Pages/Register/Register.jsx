@@ -2,7 +2,8 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { updateProfile } from 'firebase/auth';
+import { sendPasswordResetEmail, updateProfile } from 'firebase/auth';
+import auth from '../../firebase/firebase.config';
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -50,6 +51,26 @@ const Register = () => {
         console.log(error);
         setRegisterError(error.message);
       });
+  };
+
+  // Handle forget Password
+  const handleForgetPassword = () => {
+    // const email = user.email;
+    // console.log(email);
+    // if (!email) {
+    //   alert('Set email please');
+    //   return;
+    // } else if (
+    //   !/[^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$]/.text(email)
+    // ) {
+    //   console.log('Provide a valid email address');
+    //   return;
+    // }
+    // sendPasswordResetEmail(auth, email)
+    //   .then(() => {
+    //     alert('Please check your email');
+    //   })
+    //   .catch((error) => console.log(error));
   };
   return (
     <div>
@@ -109,7 +130,11 @@ const Register = () => {
                 </label>
               </div>
               <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
+                <a
+                  onClick={handleForgetPassword}
+                  href="#"
+                  className="label-text-alt link link-hover"
+                >
                   Forgot password?
                 </a>
               </label>
